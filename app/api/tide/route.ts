@@ -5,7 +5,9 @@ import type { TideData } from "@/app/types/Tide";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const locName = searchParams.get("loc") || "和歌山";
+    const locNameRaw = searchParams.get("loc") || "和歌山";
+    const locName = decodeURIComponent(locNameRaw);
+
 
     const location = tideLocation.find(l => l.nameJp === locName);
     if (!location) {
