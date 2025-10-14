@@ -16,7 +16,8 @@ export default function Page() {
   const [tideData, setData] = useState<TideData | null>(null);
   const [selected, setSelected] = useState(tideLocation[0]); // デフォルト＝和歌山
   const [activeZones, setActiveZones] = useState<{ start: string; end: string }[]>([]);
-  const [weatherData, setWeatherData] = useState<any>(null);
+  const [weatherData, setWeatherData] = useState<Record<string, any> | null>(null);
+
 
   //======================================================================
   //  潮汐データのフェッチ
@@ -249,14 +250,16 @@ export default function Page() {
         </div>
 
         {/* 4. マップ */}
-        <Image
-          src={selected.mapImage}
-          alt={`${selected.nameJp} の地図`}
-          width={600}
-          height={300}
-          unoptimized //最適化せずそのまま表示
-          className="rounded-xl border border-slate-700 shadow-lg"
-        />
+        <div className="flex justify-center my-4">
+          <Image
+            src={selected.mapImage}
+            alt={`${selected.nameJp} の地図`}
+            width={600}
+            height={300}
+            unoptimized //最適化せずそのまま表示
+            className="rounded-xl border border-slate-700 shadow-lg"
+          />
+        </div>
       </div>
     </div>
   );

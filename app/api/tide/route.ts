@@ -28,7 +28,7 @@ export async function GET(request: Request) {
     const data: TideData = {
         date,
         harbor: json.tide.port.harbor_namej,
-        tide: chart.tide.map((t: any) => ({
+        tide: chart.tide.map((t: { time: string; cm: number; unix: number }) => ({
             time: t.time,
             height: t.cm,
             unix: t.unix,
