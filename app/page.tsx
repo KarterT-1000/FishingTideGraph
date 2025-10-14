@@ -5,7 +5,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useEffect, useState } from "react";
 import { tideLocation } from "@/app/lib/data";
 import type { TideData } from "@/app/types/Tide";
-import { calcTideGradient } from "@/app/lib/utils";
+import { calcTideGradient, formatJSTDate } from "@/app/lib/utils";
 import type { WeatherData } from "@/app/types/Weather";
 import React from "react";
 import Image from "next/image";
@@ -114,12 +114,9 @@ export default function Page() {
 
         {/* 1. 日付 and 場所*/}
         <div className="text-center mb-3">
-          <h1 className="text-7xl font-light tracking-tight text-cyan-400">{(() => {
-            const d = new Date(tideData.date);
-            const month = d.getMonth() + 1;
-            const day = d.getDate();
-            return `${month}/${day}`;
-          })()}</h1>
+          <h1 className="text-7xl font-light tracking-tight text-cyan-400">
+            {formatJSTDate(tideData.date)}
+          </h1>
         </div>
 
         <div className="flex items-center justify-center gap-3 mb-4">

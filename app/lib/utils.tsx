@@ -74,3 +74,12 @@ export const WeatherLabelMap: Record<WeatherCategory, string> = {
     fog: "霧",
     unknown: "不明",
 };
+
+//日時を日本に合わせる
+export const formatJSTDate = (dateStr: string) => {
+    return new Intl.DateTimeFormat('ja-JP', {
+        month: 'numeric',
+        day: 'numeric',
+        timeZone: 'Asia/Tokyo',
+    }).format(new Date(dateStr));
+};
