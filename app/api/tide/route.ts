@@ -3,6 +3,13 @@ import { NextResponse } from "next/server";
 import { tideLocation } from "@/app/lib/data";
 import type { TideData } from "@/app/types/Tide";
 
+// JSTの現在時刻を取得する関数
+function getJstNow() {
+    const now = new Date();
+    const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000); // +9時間
+    return jst;
+}
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const locNameRaw = searchParams.get("loc") || "和歌山";
@@ -14,7 +21,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: "location not found" }, { status: 404 });
     }
 
-    const now = new Date();
+    const now = getJstNow();
     const yr = now.getFullYear();
     const mn = now.getMonth() + 1;
     const dy = now.getDate();
