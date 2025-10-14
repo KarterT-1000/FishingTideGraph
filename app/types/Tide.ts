@@ -2,11 +2,13 @@ import { SunInfo } from "./Weather";
 
 // 港情報
 export type TideLocation = {
+    prefecture: string;
     prefectureCode: number;
     harborCode: string;
     nameJp: string;
     latitude: number;
     longitude: number;
+    mapImage: string;
 };
 
 //一時データ

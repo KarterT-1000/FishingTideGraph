@@ -64,3 +64,13 @@ export const getWindDirectionLabel = (deg: number): string => {
     const index = Math.round((deg % 360) / 22.5);
     return dirs[index];
 };
+
+// 日本語ラベルマップ
+export const WeatherLabelMap: Record<WeatherCategory, string> = {
+    sun: "晴れ",
+    cloudy: "曇り",
+    rain: "雨",
+    snow: "雪",
+    fog: "霧",
+    unknown: "不明",
+};

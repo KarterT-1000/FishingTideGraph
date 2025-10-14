@@ -1,12 +1,13 @@
 "use client";
 import { LuMapPin } from "react-icons/lu";
-import { getWeatherCategory, getWeatherIcon, getWindDirectionLabel } from "@/app/lib/utils";
+import { getWeatherCategory, getWeatherIcon, getWindDirectionLabel, WeatherLabelMap } from "@/app/lib/utils";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceDot, ReferenceArea } from "recharts";
 import { useEffect, useState } from "react";
 import { tideLocation } from "@/app/lib/data";
 import type { TideData } from "@/app/types/Tide";
 import { calcTideGradient } from "@/app/lib/utils";
 import React from "react";
+import Image from "next/image";
 
 export default function Page() {
   //======================================================================
@@ -47,7 +48,7 @@ export default function Page() {
   const weatherCode = weatherData?.hourly?.weathercode?.[0] ?? 0;
   const weatherCategory = getWeatherCategory(weatherCode);
   const WeatherIcon = getWeatherIcon(weatherCategory);
-
+  const weatherLabel = WeatherLabelMap[weatherCategory];
 
   //======================================================================
   // 現在時刻を20分単位に丸めて "HH:mm"
@@ -89,6 +90,23 @@ export default function Page() {
         ? a
         : b
     );
+
+  //======================================================================
+  // 潮位差の計算
+  //======================================================================
+  const heights = tideData.tide.map(p => p.height);
+  const maxHeight = Math.max(...heights);
+  const minHeight = Math.min(...heights);
+  const tideRange = Math.round(maxHeight - minHeight); // cm単位、四捨五入
+
+  //======================================================================
+  // 潮位差から釣りコンディションを判定
+  //======================================================================
+  let fishingCondition = "";
+  if (tideRange >= 150) fishingCondition = "Conditions ◎ : 絶好の釣り日和";
+  else if (tideRange >= 100) fishingCondition = "Conditions ○ : 潮の流れはおおよそ良好";
+  else fishingCondition = "Conditions △ : 潮の流れが緩やか";
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 text-gray-100">
       <div className="max-w-2xl mx-auto py-10 pb-10">
@@ -103,9 +121,28 @@ export default function Page() {
           })()}</h1>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <LuMapPin className="w-5 h-5 text-cyan-400" />
-          <h2 className="text-2xl font-medium text-gray-100">{tideData.harbor}</h2>
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <LuMapPin className="w-6 h-6 text-cyan-400" />
+          <select
+            value={selected.nameJp}
+            onChange={(e) => {
+              const loc = tideLocation.find((l) => l.nameJp === e.target.value);
+              if (loc) setSelected(loc);
+            }}
+            className="bg-slate-800/70 text-gray-100 text-lg px-4 py-2 rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-200 hover:bg-slate-700/70"
+          >
+            {Array.from(new Set(tideLocation.map((l) => l.prefecture))).map((pref) => (
+              <optgroup key={pref} label={pref}>
+                {tideLocation
+                  .filter((l) => l.prefecture === pref)
+                  .map((loc) => (
+                    <option key={loc.harborCode} value={loc.nameJp}>
+                      {loc.nameJp}
+                    </option>
+                  ))}
+              </optgroup>
+            ))}
+          </select>
         </div>
 
         <div className="flex justify-center gap-25 mb-2 text-2xl">
@@ -165,7 +202,7 @@ export default function Page() {
         </ResponsiveContainer>
 
         {/* 2. 天気カード */}
-        <div className="bg-gray-800 backdrop-blur rounded-2xl p-6 mb-2 shadow-lg border border-slate-700/50">
+        <div className="bg-gray-800 backdrop-blur rounded-2xl p-6 mb-4 shadow-lg border border-slate-700/50">
           <h3 className="font-medium text-gray-400 block mb-3 border-b-1 inline-block pb-1">Weather Conditions</h3>
           <div className="flex items-start gap-6">
             <div className="flex-shrink-8">
@@ -177,18 +214,22 @@ export default function Page() {
 
             <div className="flex-1 grid grid-cols-2 gap-4">
               <div>
+                <span className="text-xs text-gray-400 block mb-1">天気</span>
+                <span className="text-2xl font-semibold text-gray-200">{weatherLabel}</span>
+              </div>
+              <div>
+                <span className="text-xs text-gray-400 block mb-1">気温</span>
+                <div className="flex item-center">
+                  <span className="text-2xl font-semibold text-gray-200">{weatherData.hourly.temperature_2m[0]}℃</span>
+                </div>
+              </div>
+              <div>
                 <span className="text-xs text-gray-400 block mb-1">風向き</span>
                 <span className="text-2xl font-semibold text-cyan-400">{getWindDirectionLabel(weatherData.hourly.winddirection_10m[0])}</span>
               </div>
               <div>
                 <span className="text-xs text-gray-400 block mb-1">風速</span>
-                <div className="flex item-center">
-                  <span className="text-2xl font-semibold text-gray-200">{weatherData.hourly.windspeed_10m[0]}m/s</span>
-                </div>
-              </div>
-              <div>
-                <span className="text-xs text-gray-400 block mb-1">気温</span>
-                <span className="text-2xl font-semibold text-gray-200">{weatherData.hourly.temperature_2m[0]}℃</span>
+                <span className="text-2xl font-semibold text-gray-200">{weatherData.hourly.windspeed_10m[0]}m/s</span>
               </div>
             </div>
 
@@ -196,26 +237,26 @@ export default function Page() {
         </div>
 
         {/* 3. 釣りのコンディション */}
-        <div className="bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl p-4 mb-2 border border-emerald-500/30">
+        <div className="bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl p-4 mb-4 border border-emerald-500/30">
           <h3 className="font-medium text-gray-400 border-b-1 inline-block mb-3">Fishing Conditions</h3>
           <div className="flex items-center justify-between">
 
 
-            <span className="text-lg text-gray-200">潮位差: <span className="font-semibold text-cyan-400">170 cm</span></span>
+            <span className="text-lg text-gray-200">潮位差: <span className="font-semibold text-cyan-400">{tideRange} cm</span></span>
 
           </div>
-          <div className="mt-3 text-sm text-emerald-400 font-medium">釣りに適したコンディション</div>
+          <div className="mt-3 text-sm text-emerald-400 font-medium">{fishingCondition}</div>
         </div>
 
         {/* 4. マップ */}
-        <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-6 border border-slate-700/50 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-700/20 to-slate-800/20"></div>
-          <div className="relative z-10 flex flex-col items-center justify-center py-16">
-            <LuMapPin className="w-12 h-12 text-gray-600 mb-4" />
-            <h3 className="text-xl font-medium text-gray-400 mb-2">Port Aerial View</h3>
-            <p className="text-sm text-gray-500">(Coming Soon)</p>
-          </div>
-        </div>
+        <Image
+          src={selected.mapImage}
+          alt={`${selected.nameJp} の地図`}
+          width={600}
+          height={300}
+          unoptimized //最適化せずそのまま表示
+          className="rounded-xl border border-slate-700 shadow-lg"
+        />
       </div>
     </div>
   );
