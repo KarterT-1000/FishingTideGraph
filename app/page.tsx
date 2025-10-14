@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { tideLocation } from "@/app/lib/data";
 import type { TideData } from "@/app/types/Tide";
 import { calcTideGradient } from "@/app/lib/utils";
+import type { WeatherData } from "@/app/types/Weather";
 import React from "react";
 import Image from "next/image";
 
@@ -16,8 +17,7 @@ export default function Page() {
   const [tideData, setData] = useState<TideData | null>(null);
   const [selected, setSelected] = useState(tideLocation[0]); // デフォルト＝和歌山
   const [activeZones, setActiveZones] = useState<{ start: string; end: string }[]>([]);
-  const [weatherData, setWeatherData] = useState<Record<string, any> | null>(null);
-
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   //======================================================================
   //  潮汐データのフェッチ
