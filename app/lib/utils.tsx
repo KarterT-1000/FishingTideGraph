@@ -77,9 +77,10 @@ export const WeatherLabelMap: Record<WeatherCategory, string> = {
 
 //日時を日本に合わせる
 export const formatJSTDate = (dateStr: string) => {
-    return new Intl.DateTimeFormat('ja-JP', {
-        month: 'numeric',
-        day: 'numeric',
-        timeZone: 'Asia/Tokyo',
-    }).format(new Date(dateStr));
+    const jstDate = new Date(`${dateStr}T00:00:00+09:00`);
+    return new Intl.DateTimeFormat("ja-JP", {
+        month: "numeric",
+        day: "numeric",
+        timeZone: "Asia/Tokyo",
+    }).format(jstDate);
 };
