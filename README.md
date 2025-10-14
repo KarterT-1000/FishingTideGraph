@@ -1,5 +1,8 @@
 ![app](https://github.com/user-attachments/assets/929f21ed-d146-4e78-ba93-24abd884693b)
 
+<img src="https://img.shields.io/badge/-TYPESCRIPT-000000.svg?logo=typescriptjs&style=for-the-badge"> <img src="https://img.shields.io/badge/-NEXT.JS-000000.svg?logo=typescriptjs&style=for-the-badge">
+
+<hr>
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
