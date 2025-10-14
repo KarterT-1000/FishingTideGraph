@@ -43,6 +43,7 @@ export async function GET(request: Request) {
         }
 
     };
+    console.log("API tide response date =", date);
 
     return NextResponse.json(data);
 }

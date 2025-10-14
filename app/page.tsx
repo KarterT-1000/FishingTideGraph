@@ -117,6 +117,7 @@ export default function Page() {
           <h1 className="text-7xl font-light tracking-tight text-cyan-400">
             {formatJSTDate(tideData.date)}
           </h1>
+
         </div>
 
         <div className="flex items-center justify-center gap-3 mb-4">
