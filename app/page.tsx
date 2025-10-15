@@ -44,14 +44,6 @@ export default function Page() {
   }, [selected]);
 
   //======================================================================
-  // お天気アイコン
-  //======================================================================
-  const weatherCode = weatherData?.hourly?.weathercode?.[0] ?? 0;
-  const weatherCategory = getWeatherCategory(weatherCode);
-  const WeatherIcon = getWeatherIcon(weatherCategory);
-  const weatherLabel = WeatherLabelMap[weatherCategory];
-
-  //======================================================================
   // 現在時刻を20分単位に丸めて "HH:mm"
   //======================================================================
   const now = new Date();
@@ -76,9 +68,22 @@ export default function Page() {
     setActiveZones(zones);
   }, [tideData]);
   //======================================================================
-  //読み込み中＝＞スケルトン実装したい（未定）
+  // ここでデータの読み込みこの先からDataが確実にある
   //======================================================================
+
   if (!tideData || !weatherData) return <div>読み込み中...</div>;
+
+  //======================================================================
+  // お天気アイコン
+  //======================================================================
+  const weatherCode = weatherData?.hourly?.weathercode?.[0] ?? 0;
+  const weatherCategory = getWeatherCategory(weatherCode);
+  const WeatherIcon = getWeatherIcon(weatherCategory);
+  const weatherLabel = WeatherLabelMap[weatherCategory];
+  //実はAPIのデータ風速は時速で来てた！だから秒速へ変更する
+  const windSpeedKmh = weatherData.hourly.windspeed_10m[0];
+  const windSpeedMs = (windSpeedKmh / 3.6).toFixed(1);
+
 
   //======================================================================
   // 現在時刻の潮位データを特定する
@@ -227,8 +232,8 @@ export default function Page() {
                 <span className="text-2xl font-semibold text-cyan-400">{getWindDirectionLabel(weatherData.hourly.winddirection_10m[0])}</span>
               </div>
               <div>
-                <span className="text-xs text-gray-400 block mb-1">風速</span>
-                <span className="text-2xl font-semibold text-gray-200">{weatherData.hourly.windspeed_10m[0]}m/s</span>
+                <span className="text-xs text-gray-400 block mb-1">最高風速</span>
+                <span className="text-2xl font-semibold text-gray-200">{windSpeedMs}m/s</span>
               </div>
             </div>
 

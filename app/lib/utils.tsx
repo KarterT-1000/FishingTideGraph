@@ -23,7 +23,7 @@ export function calcTideGradient(tide: { time: string; height: number }[]) {
     return gradients;
 }
 
-// app/lib/utils.ts
+// 天気
 import { WiCloudy, WiRain, WiSnow, WiFog } from "react-icons/wi";
 import { LuSun } from "react-icons/lu";
 import type { WeatherCategory } from "../types/Weather";
@@ -37,6 +37,7 @@ export const getWeatherCategory = (code: number): WeatherCategory => {
     return "unknown";
 };
 
+//天気アイコン
 export const getWeatherIcon = (category: WeatherCategory) => {
     switch (category) {
         case "sun":
@@ -54,6 +55,7 @@ export const getWeatherIcon = (category: WeatherCategory) => {
     }
 };
 
+//風向き
 export const getWindDirectionLabel = (deg: number): string => {
     const dirs = [
         "北", "北北東", "北東", "東北東", "東",

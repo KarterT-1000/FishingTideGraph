@@ -42,7 +42,7 @@ export const tideLocation: TideLocation[] = [
         prefecture: "和歌山県",
         prefectureCode: 30,
         harborCode: "13",
-        nameJp: "田辺",
+        nameJp: "白浜",
         latitude: 33.733,
         longitude: 135.383,
         mapImage: "/maps/tanabe.png",
