@@ -110,4 +110,13 @@ export const tideLocation: TideLocation[] = [
         longitude: 135.08,
         mapImage: "/maps/huke.png",
     },
+    {
+        prefecture: "福岡県",
+        prefectureCode: 40,
+        harborCode: "6",
+        nameJp: "門司",
+        latitude: 33.57,
+        longitude: 130.58,
+        mapImage: "/maps/moji.png",
+    },
 ];
