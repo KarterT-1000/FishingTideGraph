@@ -1,18 +1,12 @@
 ![app](https://github.com/user-attachments/assets/929f21ed-d146-4e78-ba93-24abd884693b)
 
-## タイドグラフと天気予報を組み合わせたアプリケーション「一時的に公開中」
+## タイドグラフと天気予報を組み合わせたアプリケーション
 釣りで使いやすいように潮位が一目でわかるグラフを配置し潮の流れが速いところは色を変えている。<br>
 天気予報を入れることで遠出でも安心！風速と風向きが分かれば遠投時もベイトを狙いやすい！<br>
 満潮と干潮の潮位差を出すことである程度の釣り指標にしている。<br>
 <hr>
 
 <img src="https://img.shields.io/badge/-TYPESCRIPT-000000.svg?logo=typescriptjs&style=for-the-badge"><img src="https://img.shields.io/badge/-NEXT.JS-000000.svg?logo=typescriptjs&style=for-the-badge">
-
-<hr>
-
-### 今後の予定
-フォルダー構成をきれいにする<br>
-スケルトンを追加することでロード中をわかりやすくする<br>
 
 <hr>
 
