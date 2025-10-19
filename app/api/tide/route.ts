@@ -65,8 +65,8 @@ export async function GET(request: Request) {
         });
     }
 
-    // レート制限チェック（1分間に1回まで）
-    if (!checkRateLimit(cacheKey, 1, 60000)) {
+    // レート制限チェック（1分間に5回まで）
+    if (!checkRateLimit(cacheKey, 5, 60000)) {
         console.warn(`Rate limit exceeded for ${cacheKey}`);
 
         // キャッシュがあれば古くても返す

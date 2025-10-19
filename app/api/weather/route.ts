@@ -41,8 +41,8 @@ export async function GET(request: Request) {
         });
     }
 
-    // レート制限（1分間に1回まで）
-    if (!checkRateLimit(`weather-${cacheKey}`, 1, 60000)) {
+    // レート制限（1分間に5回まで）
+    if (!checkRateLimit(`weather-${cacheKey}`, 5, 60000)) {
         console.warn(`Weather rate limit exceeded for ${cacheKey}`);
 
         if (cached) {
