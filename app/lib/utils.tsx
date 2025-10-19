@@ -79,8 +79,10 @@ export const WeatherLabelMap: Record<WeatherCategory, string> = {
 
 //時間を[MM/DD]としてページに表示させる
 export const formatJSTDate = (dateStr: string) => {
-
-    const [year, month, day] = dateStr.split('-');
+    // "2025-10-19" → ["2025", "10", "19"]
+    const parts = dateStr.split('-');
+    const month = parts[parts.length - 2]; // 後ろから2番目
+    const day = parts[parts.length - 1];   // 最後
 
     return `${parseInt(month)}/${parseInt(day)}`;
 };

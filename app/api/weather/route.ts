@@ -2,9 +2,21 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/app/lib/rateLimit";
 
+// 天気データの型定義
+interface WeatherCacheData {
+    hourly: {
+        time: string[];
+        temperature_2m: number[];
+        precipitation_probability: number[];
+        weathercode: number[];
+        windspeed_10m: number[];
+        winddirection_10m: number[];
+    };
+}
+
 // メモリキャッシュ
-const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 1800000; // 30分
+const cache = new Map<string, { data: WeatherCacheData; timestamp: number }>();
+const CACHE_TTL = 3600000; // 1時間
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
