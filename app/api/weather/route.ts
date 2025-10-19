@@ -16,7 +16,7 @@ interface WeatherCacheData {
 
 // メモリキャッシュ
 const cache = new Map<string, { data: WeatherCacheData; timestamp: number }>();
-const CACHE_TTL = 3600000; // 1時間
+const CACHE_TTL = 21600000; // 6時間
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);

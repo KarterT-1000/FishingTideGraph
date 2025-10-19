@@ -6,7 +6,7 @@ import { checkRateLimit } from "@/app/lib/rateLimit";
 
 // メモリキャッシュ（Serverless Function内で有効）
 const cache = new Map<string, { data: TideData; timestamp: number }>();
-const CACHE_TTL = 3600000; // 1時間
+const CACHE_TTL = 21600000; // 6時間
 
 function getJstNow() {
     const now = new Date();

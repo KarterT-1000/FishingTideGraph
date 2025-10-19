@@ -1,4 +1,5 @@
 // app/lib/api.ts
+import { cache } from 'react';
 import type { TideData } from "@/app/types/Tide";
 import type { WeatherData } from "@/app/types/Weather";
 
@@ -31,15 +32,18 @@ function getBaseUrl() {
 }
 
 /**
- * 潮汐データを取得（内部API経由）
+ * 潮汐データを取得（Reactキャッシュで重複防止）
+ * 同じlocationに対する複数回の呼び出しは自動的に1回にまとめられる
  */
-export async function getTideData(location: string): Promise<TideData> {
+export const getTideData = cache(async (location: string): Promise<TideData> => {
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/tide?loc=${encodeURIComponent(location)}`;
 
+    console.log(`🌊 Fetching tide data for: ${location}`);
+
     try {
         const res = await fetch(url, {
-            next: { revalidate: 3600 }, // 1時間キャッシュ
+            next: { revalidate: 21600 }, // 6時間キャッシュ
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -55,26 +59,30 @@ export async function getTideData(location: string): Promise<TideData> {
             throw new Error(`Tide API returned ${res.status}: ${res.statusText}`);
         }
 
-        return res.json();
+        const data = await res.json();
+        console.log(`✅ Tide data received for: ${location}`);
+        return data;
     } catch (error) {
         console.error("Failed to fetch tide data:", error);
         throw error;
     }
-}
+});
 
 /**
- * 天気データを取得（内部API経由）
+ * 天気データを取得（Reactキャッシュで重複防止）
  */
-export async function getWeatherData(
+export const getWeatherData = cache(async (
     lat: number,
     lon: number
-): Promise<WeatherData> {
+): Promise<WeatherData> => {
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/weather?lat=${lat}&lon=${lon}`;
 
+    console.log(`☀️ Fetching weather data for: ${lat}, ${lon}`);
+
     try {
         const res = await fetch(url, {
-            next: { revalidate: 1800 }, // 30分キャッシュ
+            next: { revalidate: 3600 }, // 1時間キャッシュ
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -90,9 +98,11 @@ export async function getWeatherData(
             throw new Error(`Weather API returned ${res.status}: ${res.statusText}`);
         }
 
-        return res.json();
+        const data = await res.json();
+        console.log(`✅ Weather data received`);
+        return data;
     } catch (error) {
         console.error("Failed to fetch weather data:", error);
         throw error;
     }
-}
+});
