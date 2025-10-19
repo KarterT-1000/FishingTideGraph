@@ -3,21 +3,25 @@ import type { TideData } from "@/app/types/Tide";
 import type { WeatherData } from "@/app/types/Weather";
 
 /**
- * ベースURLを取得
- * Vercel環境では VERCEL_URL を使用
+ * ベースURLを取得（Vercel完全対応）
  */
 function getBaseUrl() {
-    // ブラウザ環境
+    // ブラウザ環境（クライアントサイド）
     if (typeof window !== "undefined") {
-        return window.location.origin;
+        return "";  // 相対パスでOK
     }
 
-    // Vercel環境
+    // Vercel本番環境
     if (process.env.VERCEL_URL) {
         return `https://${process.env.VERCEL_URL}`;
     }
 
-    // 環境変数で指定されたURL
+    // Vercelプレビュー環境
+    if (process.env.VERCEL_BRANCH_URL) {
+        return `https://${process.env.VERCEL_BRANCH_URL}`;
+    }
+
+    // カスタムドメイン
     if (process.env.NEXT_PUBLIC_SITE_URL) {
         return process.env.NEXT_PUBLIC_SITE_URL;
     }
@@ -31,14 +35,23 @@ function getBaseUrl() {
  */
 export async function getTideData(location: string): Promise<TideData> {
     const baseUrl = getBaseUrl();
+    const url = `${baseUrl}/api/tide?loc=${encodeURIComponent(location)}`;
 
     try {
-        const res = await fetch(`${baseUrl}/api/tide?loc=${encodeURIComponent(location)}`, {
+        const res = await fetch(url, {
             next: { revalidate: 3600 }, // 1時間キャッシュ
-            cache: "force-cache",
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
 
         if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            console.error("Tide API Error:", {
+                status: res.status,
+                statusText: res.statusText,
+                error: errorData,
+            });
             throw new Error(`Tide API returned ${res.status}: ${res.statusText}`);
         }
 
@@ -57,14 +70,23 @@ export async function getWeatherData(
     lon: number
 ): Promise<WeatherData> {
     const baseUrl = getBaseUrl();
+    const url = `${baseUrl}/api/weather?lat=${lat}&lon=${lon}`;
 
     try {
-        const res = await fetch(`${baseUrl}/api/weather?lat=${lat}&lon=${lon}`, {
+        const res = await fetch(url, {
             next: { revalidate: 1800 }, // 30分キャッシュ
-            cache: "force-cache",
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
 
         if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            console.error("Weather API Error:", {
+                status: res.status,
+                statusText: res.statusText,
+                error: errorData,
+            });
             throw new Error(`Weather API returned ${res.status}: ${res.statusText}`);
         }
 
