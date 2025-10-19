@@ -1,4 +1,3 @@
-
 import type { TideData } from "@/app/types/Tide";
 import type { WeatherData } from "@/app/types/Weather";
 
@@ -9,7 +8,7 @@ import type { WeatherData } from "@/app/types/Weather";
 export async function getTideData(location: string): Promise<TideData> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     const res = await fetch(`${baseUrl}/api/tide?loc=${location}`, {
-        cache: 'no-store', // キャッシュ無効化
+        cache: 'no-store',
     });
 
     if (!res.ok) {
@@ -29,7 +28,7 @@ export async function getWeatherData(
 ): Promise<WeatherData> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     const res = await fetch(`${baseUrl}/api/weather?lat=${lat}&lon=${lon}`, {
-        cache: 'no-store', // キャッシュ無効化
+        cache: 'no-store', // キャッシュ無効化（テスト用）
     });
 
     if (!res.ok) {
