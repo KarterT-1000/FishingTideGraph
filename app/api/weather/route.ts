@@ -1,4 +1,4 @@
-//天気のAPI
+//天気のAPI（Open-Meteo API）
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -13,12 +13,12 @@ export async function GET(request: Request) {
     // 今日の日付を YYYY-MM-DD 形式で生成
     const today = new Date().toISOString().split("T")[0];
 
-    // Open-Meteo API URL（date を含めてキャッシュ切り替え）
+    // API URL（date を含めてキャッシュ切り替え）
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&start_date=${today}&end_date=${today}&hourly=temperature_2m,precipitation_probability,weathercode,windspeed_10m,winddirection_10m`;
 
     try {
         const res = await fetch(url, {
-            next: { revalidate: 86400 }, // 1日キャッシュ
+            next: { revalidate: 43200 }, // とりあえず12時間キャッシュ
         });
 
         if (!res.ok) {

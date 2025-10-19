@@ -1,4 +1,4 @@
-//勾配算出するぞ
+//グラフの勾配算出
 export function calcTideGradient(tide: { time: string; height: number }[]) {
     const gradients = [];
 
@@ -23,7 +23,7 @@ export function calcTideGradient(tide: { time: string; height: number }[]) {
     return gradients;
 }
 
-// 天気
+// 天気データ（数値）から各カテゴリーへ
 import { WiCloudy, WiRain, WiSnow, WiFog } from "react-icons/wi";
 import { LuSun } from "react-icons/lu";
 import type { WeatherCategory } from "../types/Weather";
@@ -37,7 +37,7 @@ export const getWeatherCategory = (code: number): WeatherCategory => {
     return "unknown";
 };
 
-//天気アイコン
+//カテゴリーから天気アイコン
 export const getWeatherIcon = (category: WeatherCategory) => {
     switch (category) {
         case "sun":
@@ -55,7 +55,7 @@ export const getWeatherIcon = (category: WeatherCategory) => {
     }
 };
 
-//風向き
+//風向き（360°データ）を方位へ
 export const getWindDirectionLabel = (deg: number): string => {
     const dirs = [
         "北", "北北東", "北東", "東北東", "東",
@@ -67,7 +67,7 @@ export const getWindDirectionLabel = (deg: number): string => {
     return dirs[index];
 };
 
-// 日本語ラベルマップ
+// 天気データを文字へ
 export const WeatherLabelMap: Record<WeatherCategory, string> = {
     sun: "晴れ",
     cloudy: "曇り",

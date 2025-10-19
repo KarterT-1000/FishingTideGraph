@@ -1,3 +1,4 @@
+//天気カテゴリー（アイコンベース）
 export type WeatherInfo = {
     icon: 'sun' | 'cloud' | 'rain';
     precipitation: number; //座標
@@ -7,6 +8,10 @@ export type WeatherInfo = {
     waterTemp: number; //水温（表面）
 };
 
+//天気カテゴリー（文字ベース）
+export type WeatherCategory = "sun" | "cloudy" | "rain" | "snow" | "fog" | "unknown";
+
+//天気データ型
 export type WeatherData = {
     hourly: {
         temperature_2m: number[];
@@ -22,5 +27,3 @@ export type SunInfo = {
     rise: string;
     set: string;
 }
-
-export type WeatherCategory = "sun" | "cloudy" | "rain" | "snow" | "fog" | "unknown";

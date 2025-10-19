@@ -1,4 +1,4 @@
-//API用
+//潮位API
 import { NextResponse } from "next/server";
 import { tideLocation } from "@/app/lib/data";
 import type { TideData } from "@/app/types/Tide";
@@ -11,11 +11,14 @@ function getJstNow() {
 }
 
 export async function GET(request: Request) {
+    // 開発中: スケルトンを確認するための遅延
+    if (process.env.NODE_ENV === 'development') {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
     const { searchParams } = new URL(request.url);
-    const locNameRaw = searchParams.get("loc") || "和歌山";
-    const locName = decodeURIComponent(locNameRaw);
 
-
+    //API場所データとdata.tsの場所が合致したとき取得
+    const locName = searchParams.get("loc");
     const location = tideLocation.find(l => l.nameJp === locName);
     if (!location) {
         return NextResponse.json({ error: "location not found" }, { status: 404 });
@@ -28,7 +31,7 @@ export async function GET(request: Request) {
 
     const url = `https://api.tide736.net/get_tide.php?pc=${location.prefectureCode}&hc=${location.harborCode}&yr=${yr}&mn=${mn}&dy=${dy}&rg=day`;
 
-    const res = await fetch(url, { next: { revalidate: 1800 } });//キャッシュ30分
+    const res = await fetch(url, { next: { revalidate: 3600 } });//キャッシュ60分
     const json = await res.json();
 
     const date = Object.keys(json.tide.chart)[0];
