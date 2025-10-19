@@ -77,7 +77,7 @@ export const WeatherLabelMap: Record<WeatherCategory, string> = {
     unknown: "不明",
 };
 
-
+//時間を[MM/DD]としてページに表示させる
 export const formatJSTDate = (dateStr: string) => {
 
     const [year, month, day] = dateStr.split('-');
