@@ -3,18 +3,23 @@ import { NextResponse } from "next/server";
 import { tideLocation } from "@/app/lib/data";
 import type { TideData } from "@/app/types/Tide";
 
-// JSTの現在時刻を取得する関数
+// JSTの現在日時を取得する関数
 function getJstNow() {
+    // 方法1: Dateオブジェクトから直接取得
     const now = new Date();
-    const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000); // +9時間
-    return jst;
+    console.log('UTC時刻:', now.toISOString());
+    console.log('システムローカル時刻:', now.toString());
+
+    // 方法2: JST文字列から作成
+    const jstString = now.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' });
+    console.log('JST文字列:', jstString);
+    const jstDate = new Date(jstString);
+    console.log('JST Date:', jstDate.toString());
+
+    return jstDate;
 }
 
 export async function GET(request: Request) {
-    // 開発中: スケルトンを確認するための遅延
-    if (process.env.NODE_ENV === 'development') {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-    }
     const { searchParams } = new URL(request.url);
 
     //API場所データとdata.tsの場所が合致したとき取得
@@ -31,7 +36,9 @@ export async function GET(request: Request) {
 
     const url = `https://api.tide736.net/get_tide.php?pc=${location.prefectureCode}&hc=${location.harborCode}&yr=${yr}&mn=${mn}&dy=${dy}&rg=day`;
 
-    const res = await fetch(url, { next: { revalidate: 3600 } });//キャッシュ60分
+    const res = await fetch(url, {
+        next: { revalidate: 1800 }//キャッシュ30分
+    });
     const json = await res.json();
 
     const date = Object.keys(json.tide.chart)[0];
@@ -53,7 +60,6 @@ export async function GET(request: Request) {
             unix: now.getTime(),
             time: `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
         }
-
     };
     console.log("API tide response date =", date);
 

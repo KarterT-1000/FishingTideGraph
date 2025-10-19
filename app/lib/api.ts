@@ -3,13 +3,12 @@ import type { WeatherData } from "@/app/types/Weather";
 
 /**
  * 潮汐データを取得（内部API経由）
- * app/api/tide/route.ts を呼び出す
  */
 export async function getTideData(location: string): Promise<TideData> {
     // サーバー側では相対パスで呼び出し可能
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     const res = await fetch(`${baseUrl}/api/tide?loc=${location}`, {
-        next: { revalidate: 3600 }, // 1時間キャッシュ
+        cache: `no-store`,//キャッシュはAPIでやっているのでなし
     });
 
     if (!res.ok) {
@@ -21,7 +20,6 @@ export async function getTideData(location: string): Promise<TideData> {
 
 /**
  * 天気データを取得（内部API経由）
- * app/api/weather/route.ts を呼び出す
  */
 export async function getWeatherData(
     lat: number,
@@ -29,7 +27,7 @@ export async function getWeatherData(
 ): Promise<WeatherData> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     const res = await fetch(`${baseUrl}/api/weather?lat=${lat}&lon=${lon}`, {
-        next: { revalidate: 1800 }, // 30分キャッシュ
+        cache: `no-store`,//キャッシュはAPIでやっているのでなし
     });
 
     if (!res.ok) {

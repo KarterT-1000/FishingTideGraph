@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
     try {
         const res = await fetch(url, {
-            next: { revalidate: 43200 }, // とりあえず12時間キャッシュ
+            next: { revalidate: 1800 }//キャッシュ30分
         });
 
         if (!res.ok) {
