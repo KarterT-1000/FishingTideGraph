@@ -6,8 +6,8 @@ import type { WeatherData } from "@/app/types/Weather";
  * app/api/tide/route.ts を呼び出す
  */
 export async function getTideData(location: string): Promise<TideData> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/tide?loc=${location}`, {
+    // 相対パスで呼び出し（サーバー・クライアント両方で動作）
+    const res = await fetch(`/api/tide?loc=${encodeURIComponent(location)}`, {
         cache: 'no-store',
     });
 
@@ -26,9 +26,9 @@ export async function getWeatherData(
     lat: number,
     lon: number
 ): Promise<WeatherData> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/weather?lat=${lat}&lon=${lon}`, {
-        cache: 'no-store', // キャッシュ無効化（テスト用）
+    // 相対パスで呼び出し（サーバー・クライアント両方で動作）
+    const res = await fetch(`/api/weather?lat=${lat}&lon=${lon}`, {
+        cache: 'no-store',
     });
 
     if (!res.ok) {
