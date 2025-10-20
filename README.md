@@ -58,14 +58,6 @@ npm run dev
 
 ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
 
-### 環境変数（オプション）
-
-`.env.local`ファイルを作成（本番環境用）：
-
-```env
-NEXT_PUBLIC_SITE_URL=https://yourdomain.com
-```
-
 ## 📁 プロジェクト構造
 
 ```
