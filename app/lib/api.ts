@@ -39,7 +39,7 @@ export const getTideData = cache(async (location: string): Promise<TideData> => 
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/tide?loc=${encodeURIComponent(location)}`;
 
-    console.log(`🌊 Fetching tide data for: ${location}`);
+    //console.log(`🌊 Fetching tide data for: ${location}`);
 
     try {
         const res = await fetch(url, {
@@ -60,16 +60,17 @@ export const getTideData = cache(async (location: string): Promise<TideData> => 
         }
 
         const data = await res.json();
-        console.log(`✅ Tide data received for: ${location}`);
+        //console.log(`✅ Tide data received for: ${location}`);
         return data;
     } catch (error) {
-        console.error("Failed to fetch tide data:", error);
+        //console.error("Failed to fetch tide data:", error);
         throw error;
     }
 });
 
 /**
- * 天気データを取得（Reactキャッシュで重複防止）
+ * 天気データを取得（Reactキャッシュで重複防止！！
+ * ）
  */
 export const getWeatherData = cache(async (
     lat: number,
@@ -78,7 +79,7 @@ export const getWeatherData = cache(async (
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/weather?lat=${lat}&lon=${lon}`;
 
-    console.log(`☀️ Fetching weather data for: ${lat}, ${lon}`);
+    //console.log(`☀️ Fetching weather data for: ${lat}, ${lon}`);
 
     try {
         const res = await fetch(url, {
@@ -99,10 +100,10 @@ export const getWeatherData = cache(async (
         }
 
         const data = await res.json();
-        console.log(`✅ Weather data received`);
+        //console.log(`✅ Weather data received`);
         return data;
     } catch (error) {
-        console.error("Failed to fetch weather data:", error);
+        //console.error("Failed to fetch weather data:", error);
         throw error;
     }
 });
