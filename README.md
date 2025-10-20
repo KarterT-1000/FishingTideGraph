@@ -67,14 +67,14 @@ fishing-app/
 │   │   ├── tide/
 |   |   |   └──route.ts    # 潮汐データAPI
 │   │   └── weather/
-|   |   |   └──route.ts    # 天気データAPI
+|   |       └──route.ts    # 天気データAPI
 │   ├── components/        # Reactコンポーネント
-│   │   ├── ConditionCard.tsx
-│   │   ├── DateCard.tsx
-│   │   ├── LocationSelector.tsx
-│   │   ├── SunTimesCard.tsx
-│   │   ├── TideChartCard.tsx
-│   │   └── WeatherCard.tsx
+│   │   ├── ConditionCard.tsx # コンディション
+│   │   ├── DateCard.tsx   # 日付
+│   │   ├── LocationSelector.tsx # 場所選択
+│   │   ├── SunTimesCard.tsx  # 日の出日の入り
+│   │   ├── TideChartCard.tsx # タイドグラフ
+│   │   └── WeatherCard.tsx   # 天気
 │   ├── lib/
 │   │   ├── api.ts         # API呼び出し関数
 │   │   ├── data.ts        # 地点データ
