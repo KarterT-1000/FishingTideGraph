@@ -1,13 +1,15 @@
 ![app](https://github.com/user-attachments/assets/929f21ed-d146-4e78-ba93-24abd884693b)
 
-# Fishing App「エラー改修工事中につき使用禁止」
+# 🪝🐟 Fishing Tide App
 
 釣り情報を一目で確認できるWebアプリケーションです。潮汐データ、天気予報、釣りに適した時間帯などを表示します。
 
-## ブラウザ
-**[アプリを試す](https://fishing-app-kansai.vercel.app)**
+## 💻 ブラウザ
 
-## 機能
+現在Vercelでデプロイするとエラーになります。(改修後URLを貼ります)<br>
+ローカルでの運用をお願いいたします。<br>
+
+## 🔍 機能
 
 -  **今日の日付表示** - 日本時間（JST）で日付を表示
 -  **潮汐データ** - その日の潮位をグラフで可視化
@@ -93,7 +95,7 @@ fishing-app/
 └── next.config.ts         # Next.js設定
 ```
 
-## 機能詳細
+## 💡 機能詳細
 
 ### 潮汐チャート
 - 24時間の潮位変動を折れ線グラフで表示
@@ -113,7 +115,6 @@ fishing-app/
 
 - **潮汐データ**: 30分ごとに更新
 - **天気データ**: 30分ごとに更新
-- **キャッシュ**: Next.jsのISR（Incremental Static Regeneration）で最適化
 
 ## レスポンシブデザイン
 
@@ -127,7 +128,7 @@ fishing-app/
 
 MIT License
 
-## 謝辞
+## 🙏謝辞
 
 - [Tide736](https://tide736.net/) - 潮汐データAPI
 - [Open-Meteo](https://open-meteo.com/) - 天気予報API
