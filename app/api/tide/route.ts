@@ -91,12 +91,9 @@ export async function GET(request: Request) {
 
         const res = await fetch(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                'Accept': 'application/json',
-            },
-            signal: AbortSignal.timeout(5000), // 5秒に短縮
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            }
         });
-
         if (!res.ok) {
             throw new Error(`API returned ${res.status}`);
         }
