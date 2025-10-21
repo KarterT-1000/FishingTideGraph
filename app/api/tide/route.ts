@@ -79,20 +79,12 @@ export async function GET(request: Request) {
             });
         }
 
-        // なければモックデータ
-        const mockData = generateMockTideData(location, now);
-        return NextResponse.json(mockData, {
-            headers: {
-                'Cache-Control': 'public, s-maxage=60',
-                'X-Data-Source': 'mock-rate-limited',
-            },
-        });
     }
 
     const yr = now.getFullYear();
     const mn = now.getMonth() + 1;
     const dy = now.getDate();
-    const url = `https://api.tide736.net/get_tide.php?pc=${location.prefectureCode}&hc=${location.harborCode}&yr=${yr}&mn=${mn}&dy=${dy}&rg=day`;
+    const url = `https://tide736.net/api/get_tide.php?pc=${location.prefectureCode}&hc=${location.harborCode}&yr=${yr}&mn=${mn}&dy=${dy}&rg=day`;
 
     try {
         console.log(`Fetching tide data for ${cacheKey}`);

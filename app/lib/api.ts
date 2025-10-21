@@ -39,11 +39,11 @@ export const getTideData = cache(async (location: string): Promise<TideData> => 
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/tide?loc=${encodeURIComponent(location)}`;
 
-    console.log(`🔍 Base URL: ${baseUrl}`);
-    console.log(`🔍 Full URL: ${url}`);
-    console.log(`🔍 Environment: ${typeof window !== 'undefined' ? 'client' : 'server'}`);
-    console.log(`🔍 VERCEL_URL: ${process.env.VERCEL_URL}`);
-    console.log(`🌊 Fetching tide data for: ${location}`);
+    // console.log(`🔍 Base URL: ${baseUrl}`);
+    // console.log(`🔍 Full URL: ${url}`);
+    // console.log(`🔍 Environment: ${typeof window !== 'undefined' ? 'client' : 'server'}`);
+    // console.log(`🔍 VERCEL_URL: ${process.env.VERCEL_URL}`);
+    // console.log(`🌊 Fetching tide data for: ${location}`);
 
     try {
         const res = await fetch(url, {
@@ -64,7 +64,7 @@ export const getTideData = cache(async (location: string): Promise<TideData> => 
         }
 
         const data = await res.json();
-        console.log(`✅ Tide data received for: ${location}`);
+        // console.log(`✅ Tide data received for: ${location}`);
         return data;
     } catch (error) {
         console.error("Failed to fetch tide data:", error);
@@ -82,7 +82,7 @@ export const getWeatherData = cache(async (
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/weather?lat=${lat}&lon=${lon}`;
 
-    console.log(`☀️ Fetching weather data for: ${lat}, ${lon}`);
+    // console.log(`☀️ Fetching weather data for: ${lat}, ${lon}`);
 
     try {
         const res = await fetch(url, {
@@ -103,10 +103,10 @@ export const getWeatherData = cache(async (
         }
 
         const data = await res.json();
-        console.log(`✅ Weather data received`);
+        // console.log(`✅ Weather data received`);
         return data;
     } catch (error) {
-        console.error("Failed to fetch weather data:", error);
+        // console.error("Failed to fetch weather data:", error);
         throw error;
     }
 });
