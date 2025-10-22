@@ -1,47 +1,117 @@
 ![app](https://github.com/user-attachments/assets/929f21ed-d146-4e78-ba93-24abd884693b)
 
-## タイドグラフと天気予報を組み合わせたアプリケーション
-釣りで使いやすいように潮位が一目でわかるグラフを配置し潮の流れが速いところは色を変えている。<br>
-天気予報を入れることで遠出でも安心！風速と風向きが分かれば遠投時もベイトを狙いやすい！<br>
-満潮と干潮の潮位差を出すことである程度の釣り指標にしている。<br>
-<hr>
-<img src="https://img.shields.io/badge/-TYPESCRIPT-000000.svg?logo=typescriptjs&style=for-the-badge">
-<img src="https://img.shields.io/badge/-NEXT.JS-000000.svg?logo=typescriptjs&style=for-the-badge">
-<hr>
+# 🪝🐟 Fishing App
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+関西エリアの釣り情報を一目で確認できるWebアプリケーションです。潮汐データ、天気予報、釣りに適した時間帯などをリアルタイムで表示します。
 
-## Getting Started
+## ✨ 機能
 
-First, run the development server:
+- **今日の日付表示** - 日本時間（JST）で日付を表示
+- **潮汐データ** - リアルタイムの潮位変動をグラフで可視化
+- **日の出・日の入り時刻** - マヅメ目安の時間帯を把握
+- **天気予報** - 気温、降水確率、風速などの詳細情報
+- **釣りコンディション判定** - 潮位差から簡単にコンディションを判定
+- **複数地点対応** - とりあえず関西の主要釣りスポット
+- **地図表示** - 各地点の位置を地図で確認
+
+## 🛠️ 技術スタック
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts
+- **APIs**:
+  - [Tide736 API](https://tide736.net/) - 潮汐データ
+  - [Open-Meteo API](https://open-meteo.com/) - 天気予報
+- **地図**:
+  - [国土地理院](https://maps.gsi.go.jp/) -地図データ 
+
+## 🚀 セットアップ
+
+### 必要な環境
+
+- Node.js 18.x 以上
+- pnpm（推奨）または npm
+
+### インストール
 
 ```bash
+# リポジトリをクローン
+git clone https://github.com/yourusername/fishing-app.git
+cd fishing-app
+
+# 依存関係をインストール
+pnpm install
+# または
+npm install
+
+# 開発サーバーを起動
+pnpm run dev
+# または
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 プロジェクト構造
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+fishing-app/
+├── app/
+│   ├── api/
+│   │   ├── tide/        
+│   │   |　 └──route.ts  # 潮汐データAPI
+│   │   └── weather/  
+│   │    　 └──route.ts  # 天気データAPI
+│   ├── lib/
+│   │   ├── data.ts      # 地点データ
+│   │   └── utils.tsx    # ユーティリティ関数
+│   ├── types/           # TypeScript型定義
+│   └── page.tsx         # メインページ
+├── public/              # 静的ファイル
+└── next.config.ts       # Next.js設定
+```
 
-## Learn More
+## 🎨 機能詳細
 
-To learn more about Next.js, take a look at the following resources:
+### 潮汐チャート
+- 24時間の潮位変動を折れ線グラフで表示
+- 潮の流れが速い時間帯を強調表示
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 釣りコンディション判定
+潮汐から以下を判定：
+-  **最適**: 潮位差が150㎝以上。大潮・中潮
+-  **良好**: 潮位差が100㎝以上。小潮
+-  **不向き**: 潮位差が100㎝以下。穏やか
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ロケーション切り替え
+ドロップダウンメニューから簡単に地点を切り替え可能。
 
-## Deploy on Vercel
+## 🔄 データ更新頻度
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **潮汐データ**: 30分ごとに更新
+- **天気データ**: 1日ごとに更新
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📱 レスポンシブデザイン
+
+モバイル、タブレット、デスクトップすべてのデバイスで快適に利用できます。
+
+## 🤝 コントリビューション
+
+プルリクエストを歓迎します！大きな変更の場合は、まずissueを開いて変更内容を議論してください。
+
+## 📄 ライセンス
+
+MIT License
+
+## 🙏 謝辞
+
+- [Tide736](https://tide736.net/) - 潮汐データAPI
+- [Open-Meteo](https://open-meteo.com/) - 天気予報API
+- [国土地理院](https://maps.gsi.go.jp/) - 地図データ
+
+## 📞 お問い合わせ
+
+質問や提案がある場合は、Issueを作成してください。
+
+良い釣りライフを！
