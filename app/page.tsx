@@ -15,7 +15,7 @@ export default function Page() {
   //  state定義
   //======================================================================
   const [tideData, setData] = useState<TideData | null>(null);
-  const [selected, setSelected] = useState(tideLocation[0]); // デフォルト＝和歌山
+  const [selected, setSelected] = useState(tideLocation[0]); // デフォルト
   const [activeZones, setActiveZones] = useState<{ start: string; end: string }[]>([]);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
@@ -71,7 +71,7 @@ export default function Page() {
   // ここでデータの読み込みこの先からDataが確実にある
   //======================================================================
 
-  if (!tideData || !weatherData) return <div>読み込み中...</div>;
+  if (!tideData || !weatherData) return <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 text-gray-100"></div>;
 
   //======================================================================
   // お天気アイコン
@@ -125,28 +125,41 @@ export default function Page() {
 
         </div>
 
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <LuMapPin className="w-6 h-6 text-cyan-400" />
-          <select
-            value={selected.nameJp}
-            onChange={(e) => {
-              const loc = tideLocation.find((l) => l.nameJp === e.target.value);
-              if (loc) setSelected(loc);
-            }}
-            className="bg-slate-800/70 text-gray-100 text-lg px-4 py-2 rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-200 hover:bg-slate-700/70"
-          >
-            {Array.from(new Set(tideLocation.map((l) => l.prefecture))).map((pref) => (
-              <optgroup key={pref} label={pref}>
-                {tideLocation
-                  .filter((l) => l.prefecture === pref)
-                  .map((loc) => (
-                    <option key={loc.harborCode} value={loc.nameJp}>
-                      {loc.nameJp}
-                    </option>
-                  ))}
-              </optgroup>
-            ))}
-          </select>
+        <div>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <LuMapPin className="w-6 h-6 text-cyan-400" />
+            <select
+              value={selected.nameJp}
+              onChange={(e) => {
+                const loc = tideLocation.find((l) => l.nameJp === e.target.value);
+                if (loc) setSelected(loc);
+              }}
+              className="bg-slate-800/70 text-gray-100 text-lg px-4 py-2 rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-200 hover:bg-slate-700/70"
+              style={{ textAlignLast: `center` }}
+            >
+              {Array.from(new Set(tideLocation.map((l) => l.prefecture))).map((pref) => (
+                <optgroup key={pref} label={pref} className="text-left font-bold text-gray-300 bg-slate-700">
+                  {tideLocation
+                    .filter((l) => l.prefecture === pref)
+                    .map((loc) => (
+                      <option key={loc.harborCode} value={loc.nameJp} className="text-left pl-4 bg-slate-800">
+                        {loc.nameJp}
+                      </option>
+                    ))}
+                </optgroup>
+              ))}
+            </select>
+            {/* ロード中アイコン */}
+            {/* <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+              {selected ? (
+                <div className="animate-spin h-4 w-4 border-2 border-blue-400 border-t-transparent rounded-full"></div>
+              ) : (
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </div> */}
+          </div>
         </div>
 
         <div className="flex justify-center gap-25 mb-2 text-2xl">
