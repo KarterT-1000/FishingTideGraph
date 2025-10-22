@@ -5,15 +5,8 @@
 天気予報を入れることで遠出でも安心！風速と風向きが分かれば遠投時もベイトを狙いやすい！<br>
 満潮と干潮の潮位差を出すことである程度の釣り指標にしている。<br>
 <hr>
-
-<img src="https://img.shields.io/badge/-TYPESCRIPT-000000.svg?logo=typescriptjs&style=for-the-badge"><img src="https://img.shields.io/badge/-NEXT.JS-000000.svg?logo=typescriptjs&style=for-the-badge">
-
-<hr>
-
-### 今後の予定
-フォルダー構成をきれいにする<br>
-スケルトンを追加することでロード中をわかりやすくする<br>
-
+<img src="https://img.shields.io/badge/-TYPESCRIPT-000000.svg?logo=typescriptjs&style=for-the-badge">
+<img src="https://img.shields.io/badge/-NEXT.JS-000000.svg?logo=typescriptjs&style=for-the-badge">
 <hr>
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
