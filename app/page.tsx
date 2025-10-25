@@ -1,5 +1,6 @@
+// app/page.tsx
 import { tideLocation } from "@/app/lib/data";
-import { getTideData } from "@/app/lib/api";
+import { getTideData, getWeatherData } from "@/app/lib/api";
 import DateCard from "./components/DateCard";
 import SunTimesCard from "./components/SunTimesCard";
 import LocationSelector from "./components/LocationSelector";
@@ -20,8 +21,17 @@ export default async function Page(props: Props) {
   const locationName = params.loc || tideLocation[0].nameJp;
   const selected = tideLocation.find((l) => l.nameJp === locationName) || tideLocation[0];
 
-  // 潮汐データは即座に取得（日の出日の入り表示のため）
-  const tideData = await getTideData(selected.nameJp);
+  console.time('⏱️ Total Server Render Time');
+  console.time('📡 API Fetch Time');
+
+  // 両方のデータを並列取得
+  const [tideData, weatherData] = await Promise.all([
+    getTideData(selected.nameJp),
+    getWeatherData(selected.latitude, selected.longitude)
+  ]);
+
+  console.timeEnd('📡 API Fetch Time');
+  console.timeEnd('⏱️ Total Server Render Time');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 text-gray-100">
@@ -33,19 +43,16 @@ export default async function Page(props: Props) {
         <LocationSelector />
 
         {/* 日の出・日の入り */}
-        <SunTimesCard location={selected.nameJp} />
+        <SunTimesCard sunData={tideData.sun} />
 
         {/* 潮汐チャート */}
         <TideChart tideData={tideData} />
 
-        {/* 天気カード*/}
-        <WeatherCard
-          latitude={selected.latitude}
-          longitude={selected.longitude}
-        />
+        {/* 天気カード */}
+        <WeatherCard weatherData={weatherData} />
 
         {/* 釣りコンディション */}
-        <ConditionCard location={selected.nameJp} />
+        <ConditionCard tideData={tideData} />
 
         {/* マップ */}
         <div className="flex justify-center my-4">

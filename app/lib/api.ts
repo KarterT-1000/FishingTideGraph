@@ -26,8 +26,11 @@ function getBaseUrl() {
 export async function getTideData(location: string): Promise<TideData> {
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/tide?loc=${encodeURIComponent(location)}`;
+    // `https://tide736.net/api/get_tide.php?pc=${location.prefectureCode}&hc=${location.harborCode}&yr=${yr}&mn=${mn}&dy=${dy}&rg=day`
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+        signal: AbortSignal.timeout(8000), // 8秒でタイムアウト
+    });
 
     if (!res.ok) {
         throw new Error(`Failed: ${res.status}`);
@@ -46,7 +49,12 @@ export async function getWeatherData(
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/weather?lat=${lat}&lon=${lon}`;
 
-    const res = await fetch(url);
+    //APIの時間計測
+    console.time(`☁️ Weather API`);
+    const res = await fetch(url, {
+        signal: AbortSignal.timeout(8000), // 8秒でタイムアウト
+    });
+    console.timeEnd(`☁️ Weather API`);
 
     if (!res.ok) {
         throw new Error(`Failed: ${res.status}`);

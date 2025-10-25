@@ -1,3 +1,18 @@
+// 天気データ（数値）から各カテゴリーへ
+import { WiCloudy, WiRain, WiSnow, WiFog } from "react-icons/wi";
+import { LuSun } from "react-icons/lu";
+import type { WeatherCategory } from "../types/Weather";
+
+export const getWeatherCategory = (code: number): WeatherCategory => {
+    if (code === 0) return "sun";
+    if ([1, 2, 3].includes(code)) return "cloudy";
+    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "rain";
+    if ([71, 73, 75, 77].includes(code)) return "snow";
+    if ([45, 48].includes(code)) return "fog";
+    return "unknown";
+};
+
+
 //グラフの勾配算出
 export function calcTideGradient(tide: { time: string; height: number }[]) {
     const gradients = [];
@@ -22,20 +37,6 @@ export function calcTideGradient(tide: { time: string; height: number }[]) {
 
     return gradients;
 }
-
-// 天気データ（数値）から各カテゴリーへ
-import { WiCloudy, WiRain, WiSnow, WiFog } from "react-icons/wi";
-import { LuSun } from "react-icons/lu";
-import type { WeatherCategory } from "../types/Weather";
-
-export const getWeatherCategory = (code: number): WeatherCategory => {
-    if (code === 0) return "sun";
-    if ([1, 2, 3].includes(code)) return "cloudy";
-    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "rain";
-    if ([71, 73, 75, 77].includes(code)) return "snow";
-    if ([45, 48].includes(code)) return "fog";
-    return "unknown";
-};
 
 //カテゴリーから天気アイコン
 export const getWeatherIcon = (category: WeatherCategory) => {

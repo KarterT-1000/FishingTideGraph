@@ -1,25 +1,22 @@
-import { getWeatherData } from "../lib/api";
+// app/components/WeatherCard.tsx
 import {
     getWeatherCategory,
     getWeatherIcon,
     getWindDirectionLabel,
     WeatherLabelMap,
 } from "@/app/lib/utils";
+import type { WeatherData } from "@/app/types/Weather";
 
 type Props = {
-    latitude: number;
-    longitude: number;
+    weatherData: WeatherData;
 };
 
-export default async function WeatherCard({ latitude, longitude }: Props) {
-    const weatherData = await getWeatherData(latitude, longitude);
-
+export default function WeatherCard({ weatherData }: Props) {
     const weatherCode = weatherData?.hourly?.weathercode?.[0] ?? 0;
     const weatherCategory = getWeatherCategory(weatherCode);
     const WeatherIcon = getWeatherIcon(weatherCategory);
     const weatherLabel = WeatherLabelMap[weatherCategory];
 
-    // 風速をkm/hからm/sに変換
     const windSpeedKmh = weatherData.hourly.windspeed_10m[0];
     const windSpeedMs = (windSpeedKmh / 3.6).toFixed(1);
 

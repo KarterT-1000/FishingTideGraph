@@ -1,3 +1,4 @@
+// app/components/TideChartCard.tsx
 "use client";
 import {
     AreaChart,

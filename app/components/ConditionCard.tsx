@@ -1,12 +1,11 @@
-import { getTideData } from "@/app/lib/api";
+// app/components/ConditionCard.tsx
+import type { TideData } from "@/app/types/Tide";
 
 type Props = {
-    location: string;
+    tideData: TideData;
 };
 
-export default async function ConditionCard({ location }: Props) {
-    const tideData = await getTideData(location);
-
+export default function ConditionCard({ tideData }: Props) {
     // 潮位差の計算
     const heights = tideData.tide.map((p) => p.height);
     const maxHeight = Math.max(...heights);
