@@ -12,7 +12,7 @@ function getJstNow() {
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const locNameRaw = searchParams.get("loc") || "和歌山";
+    const locNameRaw = searchParams.get("loc") || "";
     const locName = decodeURIComponent(locNameRaw);
 
 
